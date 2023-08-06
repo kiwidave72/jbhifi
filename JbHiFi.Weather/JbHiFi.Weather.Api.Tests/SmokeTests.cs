@@ -1,18 +1,18 @@
 using JbHiFi.Weather.Api;
 using Microsoft.AspNetCore.Mvc.Testing;
 
-public class BasicTests
+public class SmokeTests
     : IClassFixture<WebApplicationFactory<Program>>
 {
     private readonly WebApplicationFactory<Program> _factory;
 
-    public BasicTests(WebApplicationFactory<Program> factory)
+    public SmokeTests(WebApplicationFactory<Program> factory)
     {
         _factory = factory;
     }
 
     [Theory]
-    [InlineData("/Forecast")]
+    [InlineData("/Api/Forecast")]
     public async Task OpenWeatherAPIKeyReturnsOK(string url)
     {
         var client = _factory.CreateClient();
@@ -22,7 +22,7 @@ public class BasicTests
         var responseBody = await response.Content.ReadAsStringAsync();
 
         Assert.True(response.IsSuccessStatusCode);
-
+         
         Assert.True(responseBody.Contains("\"name\":\"London\""));
 
     }
