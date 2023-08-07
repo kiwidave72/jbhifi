@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JbHiFi.Weather.Api", "JbHiF
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JbHiFi.Weather.Api.Tests", "JbHiFi.Weather.Api.Tests\JbHiFi.Weather.Api.Tests.csproj", "{8C39B177-2195-4BD3-86B7-BC0BC5FE73F8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JbHiFi.OpenWeather.Client", "JbHiFi.OpenWeather.Client\JbHiFi.OpenWeather.Client.csproj", "{384C456D-69F0-48C1-BB20-D040C6A157A8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "jbHiFi.OpenWeather.Client.Tests", "jbHiFi.OpenWeather.Client.Tests\jbHiFi.OpenWeather.Client.Tests.csproj", "{DC71AB42-F8C4-4921-8F07-FC14A58F1761}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{8C39B177-2195-4BD3-86B7-BC0BC5FE73F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8C39B177-2195-4BD3-86B7-BC0BC5FE73F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8C39B177-2195-4BD3-86B7-BC0BC5FE73F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{384C456D-69F0-48C1-BB20-D040C6A157A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{384C456D-69F0-48C1-BB20-D040C6A157A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{384C456D-69F0-48C1-BB20-D040C6A157A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{384C456D-69F0-48C1-BB20-D040C6A157A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC71AB42-F8C4-4921-8F07-FC14A58F1761}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC71AB42-F8C4-4921-8F07-FC14A58F1761}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC71AB42-F8C4-4921-8F07-FC14A58F1761}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC71AB42-F8C4-4921-8F07-FC14A58F1761}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

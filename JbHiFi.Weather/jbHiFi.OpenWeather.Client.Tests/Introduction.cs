@@ -1,10 +1,11 @@
-﻿using JbHiFi.Weather.Api.Controllers;
+﻿using System.Net;
+using JbHiFi.OpenWeather.Client;
+using JbHiFi.Weather.Api;
 using Microsoft.Extensions.Options;
 using Moq;
 using Moq.Protected;
-using System.Net;
 
-namespace JbHiFi.Weather.Api.Tests.ServiceTests
+namespace jbHiFi.OpenWeather.Client.Tests
 {
     public class Introduction
     {
@@ -26,11 +27,11 @@ namespace JbHiFi.Weather.Api.Tests.ServiceTests
         public async void IntegrationWithOpenWeatherSuccessful()
         {
             
-            var service = new OpenWeatherApiService(_testSettings,new HttpClient());
+            var service = new OpenWeatherClient(_testSettings,new HttpClient());
             
             var result = await service.GetWeather();
 
-            Assert.True(result.Contains("\"name\":\"London\""));
+            Assert.True(result.Weather.First().Description.Contains("clear sky"));
             
         }
 
@@ -39,9 +40,10 @@ namespace JbHiFi.Weather.Api.Tests.ServiceTests
         public async void Service_returns_when_successful()
         {
 
-                var body = "\"name\":\"London\"";
-            
-                var mockMessageHandler = new Mock<HttpMessageHandler>();
+            var body = "{\r\n  \"coord\": {\r\n    \"lon\": 10.99,\r\n    \"lat\": 44.34\r\n  },\r\n  \"weather\": [\r\n    {\r\n      \"id\": 501,\r\n      \"main\": \"Rain\",\r\n      \"description\": \"clear sky\",\r\n      \"icon\": \"10d\"\r\n    }\r\n  ]}";
+
+
+            var mockMessageHandler = new Mock<HttpMessageHandler>();
                 
                 mockMessageHandler.Protected()
                     .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
@@ -52,18 +54,18 @@ namespace JbHiFi.Weather.Api.Tests.ServiceTests
                     });
 
                 
-                var underTest = new OpenWeatherApiService(_testSettings,new HttpClient(mockMessageHandler.Object));
+                var underTest = new OpenWeatherClient(_testSettings,new HttpClient(mockMessageHandler.Object));
 
                 var result = await underTest.GetWeather();
             
-                Assert.True(result.Contains("\"name\":\"London\""));
+                Assert.True(result.Weather.First().Description.Contains("clear sky"));
 
         }
         [Fact]
         public void Service_returns_exception_when_unsuccessful()
         {
 
-            var body = "\"name\":\"London\"";
+            var body = "{\r\n  \"coord\": {\r\n    \"lon\": 10.99,\r\n    \"lat\": 44.34\r\n  },\r\n  \"weather\": [\r\n    {\r\n      \"id\": 501,\r\n      \"main\": \"Rain\",\r\n      \"description\": \"moderate rain\",\r\n      \"icon\": \"10d\"\r\n    }\r\n  ]}";
 
             var mockMessageHandler = new Mock<HttpMessageHandler>();
 
@@ -76,7 +78,7 @@ namespace JbHiFi.Weather.Api.Tests.ServiceTests
                 });
 
 
-            var underTest = new OpenWeatherApiService(_testSettings, new HttpClient(mockMessageHandler.Object));
+            var underTest = new OpenWeatherClient(_testSettings, new HttpClient(mockMessageHandler.Object));
 
             var exception =  Assert.ThrowsAsync<Exception>(async () => await underTest.GetWeather());
 

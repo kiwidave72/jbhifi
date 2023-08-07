@@ -1,6 +1,6 @@
 
+using JbHiFi.OpenWeather.Client;
 using JbHiFi.Weather.Api.Controllers;
-using Microsoft.AspNetCore.Cors.Infrastructure;
 
 namespace JbHiFi.Weather.Api
 {
@@ -14,7 +14,7 @@ namespace JbHiFi.Weather.Api
 
             builder.Services.Configure<OpenWeatherAPISettings>(builder.Configuration.GetSection("OpenWeatherAPISettings"));
 
-            builder.Services.AddScoped<IOpenWeatherApiService, OpenWeatherApiService>();
+            builder.Services.AddScoped<IOpenWeatherClient, OpenWeatherClient>();
 
             builder.Services.AddHttpClient();
             

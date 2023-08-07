@@ -1,5 +1,7 @@
 using JbHiFi.Weather.Api;
 using Microsoft.AspNetCore.Mvc.Testing;
+using System.Text.Json;
+using WeatherModel = JbHiFi.Weather.Api.Models.WeatherModel;
 
 public class SmokeTests
     : IClassFixture<WebApplicationFactory<Program>>
@@ -15,6 +17,11 @@ public class SmokeTests
     [InlineData("/Api/Forecast")]
     public async Task OpenWeatherAPIKeyReturnsOK(string url)
     {
+        var options = new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true
+        };
+
         var client = _factory.CreateClient();
 
         var response = await client.GetAsync(url);
@@ -22,8 +29,11 @@ public class SmokeTests
         var responseBody = await response.Content.ReadAsStringAsync();
 
         Assert.True(response.IsSuccessStatusCode);
-         
-        Assert.True(responseBody.Contains("\"name\":\"London\""));
+
+
+        var model = JsonSerializer.Deserialize<WeatherModel>(responseBody, options);
+
+        Assert.True(model.Description.Contains("clear sky"));
 
     }
 }

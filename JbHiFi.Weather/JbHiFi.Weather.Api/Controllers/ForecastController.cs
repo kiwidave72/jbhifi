@@ -1,3 +1,5 @@
+using JbHiFi.OpenWeather.Client;
+using JbHiFi.Weather.Api.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JbHiFi.Weather.Api.Controllers
@@ -8,10 +10,10 @@ namespace JbHiFi.Weather.Api.Controllers
     {
 
         private readonly ILogger<ForecastController> _logger;
-        private readonly IOpenWeatherApiService _openWeatherApi;
+        private readonly IOpenWeatherClient _openWeatherApi;
 
         public ForecastController(ILogger<ForecastController> logger,
-            IOpenWeatherApiService openWeatherApi)
+            IOpenWeatherClient openWeatherApi)
         {
             _logger = logger;
             _openWeatherApi = openWeatherApi;
@@ -21,8 +23,13 @@ namespace JbHiFi.Weather.Api.Controllers
         [HttpGet]
         public async Task<ActionResult> GetWeather()
         {
+            var openWeather = await _openWeatherApi.GetWeather();
+
+            WeatherModel weather = new WeatherModel();
+
+            weather.Description = openWeather.Weather.First().Description;
             
-            return Ok(await _openWeatherApi.GetWeather());
+            return Ok(weather);
         }
     }
 }

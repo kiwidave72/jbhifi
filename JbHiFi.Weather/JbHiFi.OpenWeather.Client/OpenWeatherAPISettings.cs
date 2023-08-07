@@ -1,4 +1,4 @@
-namespace JbHiFi.Weather.Api.Controllers;
+namespace JbHiFi.Weather.Api;
 
 public class OpenWeatherAPISettings
 {
