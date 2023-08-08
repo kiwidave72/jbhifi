@@ -24,10 +24,6 @@ public class SlidingWindowValidator : ISlidingWindowValidator
 
             if (window.Count() > windowLimit)
             {
-                var firstRequestTicks = window.OrderDescending().Last();
-                //var split = currentRequestTicks - firstRequestTicks;
-                //var span = new DateTime(split);
-
                 _logger.LogDebug($"rate limit exceeded {window.Count()}");
                 return false;
             }

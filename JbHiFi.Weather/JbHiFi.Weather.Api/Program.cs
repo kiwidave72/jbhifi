@@ -1,6 +1,7 @@
 
 using JbHiFi.OpenWeather.Client;
 using JbHiFi.Weather.Api.Controllers;
+using Microsoft.AspNetCore.Authorization;
 
 namespace JbHiFi.Weather.Api
 {
@@ -14,6 +15,7 @@ namespace JbHiFi.Weather.Api
 
             builder.Services.Configure<OpenWeatherAPISettings>(builder.Configuration.GetSection("OpenWeatherAPISettings"));
             builder.Services.Configure<RateLimiterSettings>(builder.Configuration.GetSection("RateLimiterSettings"));
+            builder.Services.Configure<AuthenticationSettings>(builder.Configuration.GetSection("AuthenticationSettings"));
 
 
             builder.Services.AddScoped<IOpenWeatherClient, OpenWeatherClient>();
@@ -29,6 +31,18 @@ namespace JbHiFi.Weather.Api
 
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+
+
+            builder.Services.AddHttpContextAccessor();
+            
+            builder.Services.AddAuthorization(options =>
+            {
+                options.AddPolicy("ClientAppIdPolicy", policy =>
+                {
+                    policy.Requirements.Add(new AppIdRequirement());
+                });
+            });
 
             var app = builder.Build();
 

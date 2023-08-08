@@ -38,18 +38,15 @@ public class SmokeTests
 
 
     [Theory]
-    [InlineData(true,"/Api/Forecast")]
-    public async Task IntegratesWithRateLimit(bool passRateLimit, string url)
+    [InlineData("/Api/Forecast", "ClientAppId1")]
+    public async Task IntegratesWithAuthentication(string url,string appId)
     {
-        var options = new JsonSerializerOptions
-        {
-            PropertyNameCaseInsensitive = true
-        };
-
         var client = _factory.CreateClient();
         HttpResponseMessage response = null;
 
-        var exception = await Record.ExceptionAsync(async () => response = await client.GetAsync(url));
-        Assert.True(exception==null && passRateLimit);
+        var exception = await Record.ExceptionAsync(async () => response = await client.GetAsync($"{url}?appId={appId}&city=london&country=uk"));
+        Assert.True(exception==null);
+        Assert.True(response.IsSuccessStatusCode);
+
     }
 }

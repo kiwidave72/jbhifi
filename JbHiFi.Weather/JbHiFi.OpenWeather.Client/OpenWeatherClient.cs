@@ -17,14 +17,14 @@ public class OpenWeatherClient : IOpenWeatherClient
         _httpClient = httpClient;
     }
 
-    public async Task<OpenWeatherModel> GetWeather()
+    public async Task<OpenWeatherModel> GetWeather(string city,string country)
     {
         var options = new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true
         };
 
-        var url = _options.Value.BaseUrl + "/weather?q=London,uk&appid=" + _options.Value.AppId;
+        var url = _options.Value.BaseUrl + $"/weather?q={city},{country}&appid=" + _options.Value.AppId;
         
         var response = await _httpClient.GetAsync(url);
 

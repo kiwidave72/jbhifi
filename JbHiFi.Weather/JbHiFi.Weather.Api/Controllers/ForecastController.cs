@@ -1,13 +1,12 @@
 using JbHiFi.OpenWeather.Client;
 using JbHiFi.Weather.Api.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System.Threading.RateLimiting;
 
 namespace JbHiFi.Weather.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [AppIdRequirement]
     public class ForecastController : ControllerBase
     {
 
@@ -25,13 +24,14 @@ namespace JbHiFi.Weather.Api.Controllers
 
 
         [HttpGet]
-        public async Task<ActionResult> GetWeather()
+       
+        public async Task<ActionResult> GetWeather(string AppId,string city,string country)
         {
             try
             {
-                _rateLimiter.RecordRequestForAppId("x");
+                _rateLimiter.RecordRequestForAppId(AppId);
 
-                var openWeather = await _openWeatherApi.GetWeather();
+                var openWeather = await _openWeatherApi.GetWeather(city,country);
 
                 WeatherModel weather = new WeatherModel();
 
@@ -42,7 +42,7 @@ namespace JbHiFi.Weather.Api.Controllers
             catch (Exception exception)
             {
                 _logger.LogError(exception.Message);
-                return StatusCode(429);
+                return StatusCode(429); 
 
             }
 

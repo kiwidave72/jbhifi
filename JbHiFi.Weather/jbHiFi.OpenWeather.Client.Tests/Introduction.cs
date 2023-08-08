@@ -1,10 +1,9 @@
-﻿using System;
-using System.Net;
-using JbHiFi.OpenWeather.Client;
+﻿using JbHiFi.OpenWeather.Client;
 using JbHiFi.Weather.Api;
 using Microsoft.Extensions.Options;
 using Moq;
 using Moq.Protected;
+using System.Net;
 
 namespace jbHiFi.OpenWeather.Client.Tests
 {
@@ -29,7 +28,7 @@ namespace jbHiFi.OpenWeather.Client.Tests
         {
             
             var service = new OpenWeatherClient(_testSettings,new HttpClient());
-            var exception =await Record.ExceptionAsync( async () => await service.GetWeather());
+            var exception =await Record.ExceptionAsync( async () => await service.GetWeather("london","uk"));
             Assert.Null(exception);
         }
 
@@ -54,7 +53,7 @@ namespace jbHiFi.OpenWeather.Client.Tests
                 
                 var underTest = new OpenWeatherClient(_testSettings,new HttpClient(mockMessageHandler.Object));
 
-                var result = await underTest.GetWeather();
+                var result = await underTest.GetWeather("london","uk");
             
                 Assert.True(result.Weather.First().Description.Contains("clear sky"));
 
@@ -78,7 +77,7 @@ namespace jbHiFi.OpenWeather.Client.Tests
 
             var underTest = new OpenWeatherClient(_testSettings, new HttpClient(mockMessageHandler.Object));
 
-            var exception =  Assert.ThrowsAsync<Exception>(async () => await underTest.GetWeather());
+            var exception =  Assert.ThrowsAsync<Exception>(async () => await underTest.GetWeather("london", "uk"));
 
             Assert.True(exception.Result.Message.Contains("failed"));
 
