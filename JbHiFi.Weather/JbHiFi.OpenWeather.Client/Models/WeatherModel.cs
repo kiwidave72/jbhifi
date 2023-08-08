@@ -5,6 +5,7 @@
 public class OpenWeatherModel
 {
     public List<WeatherModel> Weather { get; set; }
+
 }
 
 public class WeatherModel

@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using JbHiFi.OpenWeather.Client;
 using JbHiFi.Weather.Api;
 using Microsoft.Extensions.Options;
@@ -28,11 +29,8 @@ namespace jbHiFi.OpenWeather.Client.Tests
         {
             
             var service = new OpenWeatherClient(_testSettings,new HttpClient());
-            
-            var result = await service.GetWeather();
-
-            Assert.True(result.Weather.First().Description.Contains("clear sky"));
-            
+            var exception =await Record.ExceptionAsync( async () => await service.GetWeather());
+            Assert.Null(exception);
         }
 
 

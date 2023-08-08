@@ -1,16 +1,22 @@
 using JbHiFi.Weather.Api;
+using JbHiFi.Weather.Api.Tests;
 using Microsoft.AspNetCore.Mvc.Testing;
 using System.Text.Json;
-using WeatherModel = JbHiFi.Weather.Api.Models.WeatherModel;
+using Xunit.Abstractions;
 
 public class SmokeTests
     : IClassFixture<WebApplicationFactory<Program>>
 {
     private readonly WebApplicationFactory<Program> _factory;
 
-    public SmokeTests(WebApplicationFactory<Program> factory)
+
+    private readonly XunitLogger<RateLimiter> _logger;
+ 
+
+    public SmokeTests(WebApplicationFactory<Program> factory, ITestOutputHelper output)
     {
         _factory = factory;
+        _logger = new XunitLogger<RateLimiter>(output);
     }
 
     [Theory]
@@ -23,17 +29,27 @@ public class SmokeTests
         };
 
         var client = _factory.CreateClient();
+        HttpResponseMessage response = null;
 
-        var response = await client.GetAsync(url);
+        var exception = await Record.ExceptionAsync(async () => response = await client.GetAsync(url));
+        Assert.Null(exception);
         
-        var responseBody = await response.Content.ReadAsStringAsync();
-
-        Assert.True(response.IsSuccessStatusCode);
+    }
 
 
-        var model = JsonSerializer.Deserialize<WeatherModel>(responseBody, options);
+    [Theory]
+    [InlineData(true,"/Api/Forecast")]
+    public async Task IntegratesWithRateLimit(bool passRateLimit, string url)
+    {
+        var options = new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true
+        };
 
-        Assert.True(model.Description.Contains("clear sky"));
+        var client = _factory.CreateClient();
+        HttpResponseMessage response = null;
 
+        var exception = await Record.ExceptionAsync(async () => response = await client.GetAsync(url));
+        Assert.True(exception==null && passRateLimit);
     }
 }

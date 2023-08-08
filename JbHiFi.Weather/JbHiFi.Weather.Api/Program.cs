@@ -13,8 +13,15 @@ namespace JbHiFi.Weather.Api
 
 
             builder.Services.Configure<OpenWeatherAPISettings>(builder.Configuration.GetSection("OpenWeatherAPISettings"));
+            builder.Services.Configure<RateLimiterSettings>(builder.Configuration.GetSection("RateLimiterSettings"));
+
 
             builder.Services.AddScoped<IOpenWeatherClient, OpenWeatherClient>();
+            
+            builder.Services.AddSingleton<IRateLimitTimeProxy, RateLimitTimeProxy>();
+            builder.Services.AddSingleton<IRateLimiter, RateLimiter>();
+
+            builder.Services.AddSingleton<ISlidingWindowValidator, SlidingWindowValidator>();
 
             builder.Services.AddHttpClient();
             
