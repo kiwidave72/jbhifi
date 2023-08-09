@@ -15,4 +15,8 @@
     <ProjectReference Include="..\JbHiFi.OpenWeather.Client\JbHiFi.OpenWeather.Client.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Service\" />
+  </ItemGroup>
+
 </Project>

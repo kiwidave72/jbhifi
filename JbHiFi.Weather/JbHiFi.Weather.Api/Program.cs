@@ -1,6 +1,7 @@
 
 using JbHiFi.OpenWeather.Client;
 using JbHiFi.Weather.Api.Controllers;
+using JbHiFi.Weather.Api.Service;
 using Microsoft.AspNetCore.Authorization;
 
 namespace JbHiFi.Weather.Api
@@ -30,6 +31,8 @@ namespace JbHiFi.Weather.Api
             builder.Services.Configure<AuthenticationSettings>(builder.Configuration.GetSection("AuthenticationSettings"));
 
 
+            
+            builder.Services.AddScoped<IWeatherService, WeatherService>();
             builder.Services.AddScoped<IOpenWeatherClient, OpenWeatherClient>();
             
             builder.Services.AddSingleton<IRateLimitTimeProxy, RateLimitTimeProxy>();

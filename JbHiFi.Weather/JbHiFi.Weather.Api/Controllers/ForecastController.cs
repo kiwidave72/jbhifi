@@ -1,5 +1,4 @@
-using JbHiFi.OpenWeather.Client;
-using JbHiFi.Weather.Api.Models;
+using JbHiFi.Weather.Api.Service;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JbHiFi.Weather.Api.Controllers
@@ -11,15 +10,15 @@ namespace JbHiFi.Weather.Api.Controllers
     {
 
         private readonly ILogger<ForecastController> _logger;
-        private readonly IOpenWeatherClient _openWeatherApi;
         private readonly IRateLimiter _rateLimiter;
+        private readonly IWeatherService _service;
 
         public ForecastController(ILogger<ForecastController> logger,
-            IOpenWeatherClient openWeatherApi , IRateLimiter rateLimiter )
+             IRateLimiter rateLimiter , IWeatherService service )
         {
             _logger = logger;
-            _openWeatherApi = openWeatherApi;
             _rateLimiter = rateLimiter;
+            _service = service;
         }
 
 
@@ -30,14 +29,8 @@ namespace JbHiFi.Weather.Api.Controllers
             try
             {
                 _rateLimiter.RecordRequestForAppId(AppId);
-
-                var openWeather = await _openWeatherApi.GetWeather(city,country);
-
-                WeatherModel weather = new WeatherModel();
-
-                weather.Description = openWeather.Weather.First().Description;
-
-                return Ok(weather);
+                
+                return Ok(await _service.GetWeather(city,country));
             }
             catch (Exception exception)
             {
