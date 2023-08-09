@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JbHiFi.OpenWeather.Client",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "jbHiFi.OpenWeather.Client.Tests", "jbHiFi.OpenWeather.Client.Tests\jbHiFi.OpenWeather.Client.Tests.csproj", "{DC71AB42-F8C4-4921-8F07-FC14A58F1761}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JbHiFi.Tests.Common", "JbHiFi.Common\JbHiFi.Tests.Common.csproj", "{C4BA05D8-70CF-4B96-B643-52063200A74D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{DC71AB42-F8C4-4921-8F07-FC14A58F1761}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DC71AB42-F8C4-4921-8F07-FC14A58F1761}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DC71AB42-F8C4-4921-8F07-FC14A58F1761}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4BA05D8-70CF-4B96-B643-52063200A74D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4BA05D8-70CF-4B96-B643-52063200A74D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4BA05D8-70CF-4B96-B643-52063200A74D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4BA05D8-70CF-4B96-B643-52063200A74D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

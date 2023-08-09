@@ -1,6 +1,6 @@
 using JbHiFi.OpenWeather.Client;
-using JbHiFi.Weather.Api.Controllers;
-using JbHiFi.Weather.Api.Models;
+using JbHiFi.Weather.Api.Response;
+using WeatherModel = JbHiFi.Weather.Api.Models.WeatherModel;
 
 namespace JbHiFi.Weather.Api.Service;
 
@@ -16,17 +16,18 @@ public class WeatherService : IWeatherService
     }
 
 
-    public async Task<WeatherModel> GetWeather(string city, string country)
+    public async Task<WeatherResponse<WeatherModel>> GetWeather(string city, string country)
     {
 
         _logger.LogInformation("try fetching GetWeather");
-        var openWeather = await _openWeatherApi.GetWeather(city, country);
+        
+        var response = await _openWeatherApi.GetWeather(city, country);
 
-        WeatherModel weather = new WeatherModel();
-
-        weather.Description = openWeather.Weather.First().Description;
-
-        return weather;
+        if (!response.IsSuccess)
+        {
+            throw new Exception("Request Errored");
+        }
+        return new WeatherResponse<WeatherModel>(new WeatherModel(){Description = response.Data.Weather.First().Description });
     }
 
 

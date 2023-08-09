@@ -4,5 +4,5 @@ namespace JbHiFi.OpenWeather.Client;
 
 public interface IOpenWeatherClient
 {
-    Task<OpenWeatherModel> GetWeather(string city, string country);
+    Task<OpenWeatherResponse<OpenWeatherModel>> GetWeather(string city, string country);
 }

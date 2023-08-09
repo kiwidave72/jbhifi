@@ -1,4 +1,4 @@
-﻿namespace JbHiFi.Weather.Api;
+﻿namespace JbHiFi.Weather.Api.RateLimit;
 
 public interface IRateLimitTimeProxy
 {

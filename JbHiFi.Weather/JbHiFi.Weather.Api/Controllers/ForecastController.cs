@@ -1,3 +1,7 @@
+using JbHiFi.Weather.Api.Authentication;
+using JbHiFi.Weather.Api.Models;
+using JbHiFi.Weather.Api.RateLimit;
+using JbHiFi.Weather.Api.Response;
 using JbHiFi.Weather.Api.Service;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,22 +27,11 @@ namespace JbHiFi.Weather.Api.Controllers
 
 
         [HttpGet]
-       
-        public async Task<ActionResult> GetWeather(string AppId,string city,string country)
+        public async Task<WeatherResponse<WeatherModel>> GetWeather(string AppId,string city,string country)
         {
-            try
-            {
-                _rateLimiter.RecordRequestForAppId(AppId);
-                
-                return Ok(await _service.GetWeather(city,country));
-            }
-            catch (Exception exception)
-            {
-                _logger.LogError(exception.Message);
-                return StatusCode(429); 
-
-            }
-
+            _rateLimiter.RecordRequestForAppId(AppId);
+            
+           return await _service.GetWeather(city, country);
         }
     }
 }

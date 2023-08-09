@@ -1,9 +1,4 @@
-﻿namespace JbHiFi.Weather.Api;
-
-public interface ISlidingWindowValidator
-{
-    bool Validate(List<long> timeline, int windowLimit, int timeInSeconds);
-}
+﻿namespace JbHiFi.Weather.Api.RateLimit;
 
 public class SlidingWindowValidator : ISlidingWindowValidator
 {

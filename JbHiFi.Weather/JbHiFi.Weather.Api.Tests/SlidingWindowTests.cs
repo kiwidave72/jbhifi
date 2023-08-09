@@ -1,4 +1,6 @@
-﻿using Xunit.Abstractions;
+﻿using JbHiFi.Tests.Common;
+using JbHiFi.Weather.Api.RateLimit;
+using Xunit.Abstractions;
 
 namespace JbHiFi.Weather.Api.Tests
 {

@@ -25,6 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\JbHiFi.Common\JbHiFi.Tests.Common.csproj" />
     <ProjectReference Include="..\JbHiFi.Weather.Api\JbHiFi.Weather.Api.csproj" />
   </ItemGroup>
 

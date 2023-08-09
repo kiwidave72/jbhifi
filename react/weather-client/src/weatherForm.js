@@ -1,5 +1,5 @@
 import React from "react";
-import { useState ,useRef} from "react";
+import { useState ,useRef,map} from "react";
 
 function WeatherForm(){
     
@@ -8,6 +8,7 @@ function WeatherForm(){
     const CLIENT_APP_ID = process.env.REACT_APP_CLIENT_APP_ID;
 
     const [Weather, setWeather] = useState([]);
+    const [ErrorMessage,setErrorMessage] = useState();
 
     const cityRef = useRef(null);
     const countryRef = useRef(null);
@@ -21,11 +22,28 @@ function WeatherForm(){
 
         fetch(SERVER_ENDPOINT + "?appId="+CLIENT_APP_ID+ "&city="+city +"&country="+country)
           .then(response => {
-            return response.json()
+
+            if (response.ok) {
+                setErrorMessage();
+                return response.json();
+            }
+            return Promise.reject(response); 
           })
           .then(data => {
             setWeather(data)
           })
+          .catch((error) => {
+
+            error.json().then((serverError) => {
+
+               if(serverError.title=='One or more validation errors occurred.'){
+                setErrorMessage('Check that City and Country have valid inputs.')
+
+               }
+
+            });            
+           
+          });
       }
 
     const handleSubmit = (event) => {
@@ -42,12 +60,8 @@ function WeatherForm(){
       };
 
 
-    return(
-
+    return( 
         <div>
-
-
-        <p> {city} {country}  </p>
         <form >
             <p>Enter the city and country</p>
             <input type='text'  ref={cityRef} placeholder='city' id='city' onKeyDown={handleCityOnChange} />
@@ -58,11 +72,16 @@ function WeatherForm(){
             </form>
 
             <div>
-            <p> {Weather.description}  </p>
+            <p>{Weather.data?.description}
+            </p>           
+            <p>{Weather.errorMessage}</p>
+
             </div>
+            <p>{ErrorMessage}</p>
 
         </div>
-    );
+      
+      );
 }
   
 export default WeatherForm;

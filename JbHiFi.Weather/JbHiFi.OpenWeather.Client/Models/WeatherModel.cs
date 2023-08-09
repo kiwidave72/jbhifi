@@ -1,7 +1,4 @@
 ﻿namespace JbHiFi.OpenWeather.Client.Models;
-
-
-
 public class OpenWeatherModel
 {
     public List<WeatherModel> Weather { get; set; }

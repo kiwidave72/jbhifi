@@ -24,6 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\JbHiFi.Common\JbHiFi.Tests.Common.csproj" />
     <ProjectReference Include="..\JbHiFi.OpenWeather.Client\JbHiFi.OpenWeather.Client.csproj" />
   </ItemGroup>
 

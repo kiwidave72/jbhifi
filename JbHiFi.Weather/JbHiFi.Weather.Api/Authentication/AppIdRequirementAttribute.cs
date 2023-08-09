@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace JbHiFi.Weather.Api;
+namespace JbHiFi.Weather.Api.Authentication;
 
 public class AppIdRequirementAttribute : TypeFilterAttribute
 {

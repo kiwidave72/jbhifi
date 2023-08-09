@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Xunit.Abstractions;
 
-namespace JbHiFi.Weather.Api.Tests;
+namespace JbHiFi.Tests.Common;
 
 public class XunitLogger<T> : ILogger<T>, IDisposable
 {
