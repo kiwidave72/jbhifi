@@ -12,6 +12,18 @@ namespace JbHiFi.Weather.Api
             var builder = WebApplication.CreateBuilder(args);
 
 
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy(name: "CorsPolicy",
+                    builder =>
+                    {
+                        builder.SetIsOriginAllowed(isOriginAllowed: _ => true) //for all origins
+                            .AllowAnyHeader()
+                            .AllowAnyMethod()
+                            .WithExposedHeaders("Content-Disposition")
+                            .AllowCredentials();
+                    });
+            });
 
             builder.Services.Configure<OpenWeatherAPISettings>(builder.Configuration.GetSection("OpenWeatherAPISettings"));
             builder.Services.Configure<RateLimiterSettings>(builder.Configuration.GetSection("RateLimiterSettings"));
@@ -45,6 +57,8 @@ namespace JbHiFi.Weather.Api
             });
 
             var app = builder.Build();
+
+            app.UseCors("CorsPolicy");
 
             if (app.Environment.IsDevelopment())
             {
